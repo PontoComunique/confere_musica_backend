@@ -19,6 +19,7 @@
   "homepage": "https://github.com/PontoComunique/confere_musica_backend#readme",
   "dependencies": {
     "@types/node": "^16.7.1",
+    "git-commit-msg-linter": "^3.2.8",
     "typescript": "^4.3.5"
   }
 }
