@@ -1,0 +1,24 @@
+{
+  "name": "confere_musica_backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PontoComunique/confere_musica_backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PontoComunique/confere_musica_backend/issues"
+  },
+  "homepage": "https://github.com/PontoComunique/confere_musica_backend#readme",
+  "dependencies": {
+    "@types/node": "^16.7.1",
+    "typescript": "^4.3.5"
+  }
+}
