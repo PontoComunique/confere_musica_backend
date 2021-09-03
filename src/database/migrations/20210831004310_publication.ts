@@ -7,7 +7,8 @@ export async function up (knex: Knex): Promise<void> {
     table.uuid('id').primary()
     table.string('title').notNullable()
     table.string('author').notNullable()
-    table.string('created_at').notNullable()
+    table.string('content').notNullable()
+    table.string('createdAt').notNullable()
   })
 }
 

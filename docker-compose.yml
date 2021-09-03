@@ -20,7 +20,7 @@ services:
     image: confere_musica_back
     depends_on:
       - db
-    command: /bin/sh -c "yarn dev"
+    command: /bin/sh -c "yarn knex:migrate:undo && yarn knex:migrate && yarn knex:seed && yarn dev"
     build: ./
     volumes:
       - .:/app

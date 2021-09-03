@@ -7,6 +7,12 @@ export async function seed (knex: Knex): Promise<void> {
 
   // Inserts seed entries
   await knex(tableName).insert([
-    { id: uuidv4(), title: 'rowValue1', author: 'dsacsacsa', created_at: new Date() }
+    {
+      id: uuidv4(),
+      title: 'rowValue1',
+      author: 'dsacsacsa',
+      content: 'dhsaudhasudhasu',
+      createdAt: new Date()
+    }
   ])
 };

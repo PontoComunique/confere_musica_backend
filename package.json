@@ -8,7 +8,10 @@
     "test": "jest --passWithNoTests --watch",
     "test:staged": "jest --passWithNoTests",
     "prepare": "husky install",
-    "staged": "lint-staged"
+    "staged": "lint-staged",
+    "knex:migrate": "knex migrate:latest",
+    "knex:migrate:undo": "knex migrate:rollback --all",
+    "knex:seed": "knex seed:run"
   },
   "repository": {
     "type": "git",
