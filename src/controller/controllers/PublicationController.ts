@@ -10,7 +10,6 @@ interface Controller {
 const PublicationController: Controller = {
   async Create (req, res) {
     const id = uuidv4()
-    console.log(req.body)
     const { title, author, content } = req.body
     try {
       await createPublication(id, title, author, content, new Date())
