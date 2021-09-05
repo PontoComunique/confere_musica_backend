@@ -13,7 +13,7 @@ const PublicationController: Controller = {
     const { title, author, content } = req.body
     try {
       await createPublication(id, title, author, content, new Date())
-      View.Success(res, 'Publication created!')
+      View.Created(res, 'Publication created!')
     } catch (error) {
       View.InternalServerError(res)
     }
