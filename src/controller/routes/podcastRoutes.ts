@@ -5,10 +5,10 @@ import verifyToken from '../auth/verifyToken'
 
 const PodcastRoutes = express.Router()
 
-PodcastRoutes.post('/podcast', verifyToken, Validator.createPodcast, Controller.Create)
-PodcastRoutes.put('/podcast/:id', Controller.Update)
-PodcastRoutes.get('/podcast/:id', Controller.Read)
-PodcastRoutes.delete('/podcast/:id', Controller.Delete)
-PodcastRoutes.get('/podcast', Controller.ReadAll)
+PodcastRoutes.post('/', verifyToken, Validator.createPodcast, Controller.Create)
+PodcastRoutes.put('/:id', Controller.Update)
+PodcastRoutes.get('/:id', Controller.Read)
+PodcastRoutes.delete('/:id', Controller.Delete)
+PodcastRoutes.get('/', Controller.ReadAll)
 
 export default PodcastRoutes

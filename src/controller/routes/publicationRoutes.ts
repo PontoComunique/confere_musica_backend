@@ -6,7 +6,7 @@ import verifyToken from '../auth/verifyToken'
 
 const PublicationRoutes = express.Router()
 
-PublicationRoutes.post('/publication', verifyToken, Validator.createPublication, Controller.Create)
+PublicationRoutes.post('/', verifyToken, Validator.createPublication, Controller.Create)
 // PublicationRoutes.post('/', auth, validation, Controller.Create, view)
 
 export default PublicationRoutes
