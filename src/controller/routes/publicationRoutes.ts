@@ -8,6 +8,9 @@ import { imageParser } from '../../middlewares/imageParser'
 const PublicationRoutes = express.Router()
 
 PublicationRoutes.post('/', verifyToken, imageParser, Validator.createPublication, Controller.Create)
-// PublicationRoutes.post('/', auth, validation, Controller.Create, view)
+PublicationRoutes.put('/:id', Controller.Update)
+PublicationRoutes.get('/:id', Controller.Read)
+PublicationRoutes.delete('/:id', Controller.Delete)
+PublicationRoutes.get('/', Controller.ReadAll)
 
 export default PublicationRoutes
