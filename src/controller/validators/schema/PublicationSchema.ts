@@ -5,3 +5,9 @@ export const CreatePublication = yup.object().shape({
   author: yup.string().required(),
   content: yup.string().required()
 })
+
+export const UpdatePublication = yup.object().shape({
+  title: yup.string(),
+  author: yup.string(),
+  content: yup.string()
+})
