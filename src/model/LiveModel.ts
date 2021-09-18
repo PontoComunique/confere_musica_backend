@@ -28,3 +28,8 @@ export async function updateLive (
   })
   return data
 }
+
+export async function getLive (): Promise<any> {
+  const data = await Connection(tableName)
+  return data
+}

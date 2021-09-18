@@ -1,9 +1,10 @@
 import type { RequestHandler } from 'express'
-import { updateLive } from '../../model/LiveModel'
+import { updateLive, getLive } from '../../model/LiveModel'
 import View from '../../view/View'
 
 interface Controller {
   Update: RequestHandler
+  Read: RequestHandler
 }
 
 const LiveController: Controller = {
@@ -34,6 +35,14 @@ const LiveController: Controller = {
         mediator2
       )
       View.Success(res, 'Live updated!')
+    } catch (error) {
+      View.InternalServerError(res)
+    }
+  },
+  async Read (_, res) {
+    try {
+      const data = await getLive()
+      View.Success(res, 'Live retrieved!', data[0])
     } catch (error) {
       View.InternalServerError(res)
     }
