@@ -3,12 +3,17 @@ import aws from 'aws-sdk'
 import fs from 'fs'
 
 export class AmazonStorage implements IImageStorage {
-  async push (file: Express.Multer.File): Promise<void> {
-    const fileContent = fs.readFileSync(`${file.path}`)
-    const s3 = new aws.S3({
+  s3: aws.S3
+
+  constructor () {
+    this.s3 = new aws.S3({
       accessKeyId: process.env.AWS_ACCESS_KEY_ID,
       secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY
     })
+  }
+
+  async push (file: Express.Multer.File): Promise<void> {
+    const fileContent = fs.readFileSync(`${file.path}`)
 
     const s3Params = {
       Bucket: process.env.BUCKET_NAME ?? '',
@@ -16,7 +21,20 @@ export class AmazonStorage implements IImageStorage {
       Body: fileContent
     }
 
-    s3.upload(s3Params, function (err, data) {
+    await this.s3.upload(s3Params, function (err, data) {
+      if (err) {
+        throw err
+      }
+    })
+  }
+
+  async delete (Key: string): Promise<void> {
+    const s3Params = {
+      Bucket: process.env.BUCKET_NAME ?? '',
+      Key
+    }
+
+    await this.s3.deleteObject(s3Params, function (err, data) {
       if (err) {
         throw err
       }

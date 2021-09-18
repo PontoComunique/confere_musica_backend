@@ -13,7 +13,7 @@ export async function updatePublication (id: string, title: string, author: stri
 }
 
 export async function deletePublication (id: string): Promise<any> {
-  const data = await Connection(tableName).where({ id }).delete()
+  const data = await Connection(tableName).where({ id }).delete().returning('storageKey')
   return data
 }
 export async function readPublication (id: string): Promise<any[]> {

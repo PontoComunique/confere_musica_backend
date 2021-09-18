@@ -1,7 +1,7 @@
 import type { RequestHandler } from 'express'
 import { v4 as uuidv4 } from 'uuid'
 import { createPublication, updatePublication, deletePublication, readPublication, readPublications } from '../../model/PublicationModel'
-import pushImage from '../../utils/pushImage'
+import * as ImageHandler from '../../utils/imageHandler'
 import { AmazonStorage } from '../../utils/AmazonStorage'
 import removeFile from '../../utils/removeFile'
 import View from '../../view/View'
@@ -20,9 +20,9 @@ const PublicationController: Controller = {
     const id = uuidv4()
     const { title, author, content } = req.body
     try {
-      await pushImage(req.file, new AmazonStorage())
+      await ImageHandler.pushImage(req.file, new AmazonStorage())
       await createPublication(id, title, author, content, new Date(), req.file.filename)
-      removeFile(req.file)
+      removeFile(req.file.path)
       return View.Success(res, 'Publication created!')
     } catch (error) {
       return View.InternalServerError(res)
@@ -41,27 +41,32 @@ const PublicationController: Controller = {
   async Delete (req, res) {
     const { id } = req.params
     try {
-      await deletePublication(id)
-      View.Success(res, 'Publication deleted!')
+      const data = await deletePublication(id)
+
+      if (data.length < 1) { return View.NotFound(res, 'No Publication with that id') }
+
+      await ImageHandler.deleteImage(data[0], new AmazonStorage())
+
+      return View.Success(res, 'Publication deleted!')
     } catch (error) {
-      View.InternalServerError(res)
+      return View.InternalServerError(res)
     }
   },
   async Read (req, res) {
     const { id } = req.params
     try {
       const data = await readPublication(id)
-      View.Success(res, 'Success!', data)
+      return View.Success(res, 'Success!', data[0])
     } catch (error) {
-      View.InternalServerError(res)
+      return View.InternalServerError(res)
     }
   },
   async ReadAll (_, res) {
     try {
       const data = await readPublications()
-      View.Success(res, 'Success!', data)
+      return View.Success(res, 'Success!', data)
     } catch (error) {
-      View.InternalServerError(res)
+      return View.InternalServerError(res)
     }
   }
 }
