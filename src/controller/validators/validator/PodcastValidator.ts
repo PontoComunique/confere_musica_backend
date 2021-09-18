@@ -18,3 +18,19 @@ export const createPodcast: RequestHandler = (req, res, next) => {
     return View.InternalServerError(res, 'Unidentified server error')
   }
 }
+
+export const updatePodcast: RequestHandler = (req, res, next) => {
+  try {
+    Schema.UpdatePodcast.validateSync(req.body, { abortEarly: false })
+    next()
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      const errors = err.inner.map(value => ({
+        name: value.name,
+        message: value.message
+      }))
+      return View.BadRequest(res, 'Validation error', errors)
+    }
+    return View.InternalServerError(res, 'Unidentified server error')
+  }
+}
