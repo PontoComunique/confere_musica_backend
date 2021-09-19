@@ -9,6 +9,11 @@ interface DatabaseData {
   password: string | undefined
 }
 
+interface DatabaseConnection {
+  connectionString: string | undefined
+  ssl: any
+}
+
 interface Pool {
   min: number
   max: number
@@ -25,7 +30,7 @@ interface Seeds {
 
 export interface Connection {
   client: string
-  connection: DatabaseData | string
+  connection: DatabaseData | DatabaseConnection | string
   pool?: Pool
   migrations: Migrations
   seeds: Seeds
@@ -65,16 +70,19 @@ export const test = {
 }
 export const production = {
   client: 'postgresql',
-  connection: process.env.DATABASE_URL ?? '',
+  connection: {
+    connectionString: process.env.DATABASE_URL ?? '',
+    ssl: { rejectUnauthorized: false }
+  },
   pool: {
     min: 2,
     max: 10
   },
   migrations: {
     tableName: 'knex_migrations',
-    directory: './database/migrations'
+    directory: './src/database/migrations'
   },
   seeds: {
-    directory: './database/seeds'
+    directory: './src/database/seeds'
   }
 }

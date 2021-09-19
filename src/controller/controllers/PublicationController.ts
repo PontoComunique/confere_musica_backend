@@ -22,6 +22,7 @@ const PublicationController: Controller = {
       await createPublication(id, title, author, content, new Date(), imageUrl)
       return View.Success(res, 'Publication created!')
     } catch (error) {
+      console.log(error)
       return View.InternalServerError(res)
     }
   },
@@ -34,6 +35,7 @@ const PublicationController: Controller = {
       await updatePublication(id, title, author, content, new Date(), imageUrl)
       View.Success(res, 'Publication updated!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -48,6 +50,7 @@ const PublicationController: Controller = {
 
       return View.Success(res, 'Publication deleted!')
     } catch (error) {
+      console.log(error)
       return View.InternalServerError(res)
     }
   },
@@ -57,6 +60,7 @@ const PublicationController: Controller = {
       const data = await readPublication(id)
       return View.Success(res, 'Success!', data[0])
     } catch (error) {
+      console.log(error)
       return View.InternalServerError(res)
     }
   },
@@ -65,6 +69,7 @@ const PublicationController: Controller = {
       const data = await readPublications()
       return View.Success(res, 'Success!', data)
     } catch (error) {
+      console.log(error)
       return View.InternalServerError(res)
     }
   }

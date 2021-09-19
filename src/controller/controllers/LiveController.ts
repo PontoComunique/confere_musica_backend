@@ -107,6 +107,7 @@ const LiveController: Controller = {
       )
       View.Success(res, 'Live updated!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -116,6 +117,7 @@ const LiveController: Controller = {
       const data = await getLive(id)
       View.Success(res, 'Live retrieved!', data[0])
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -124,6 +126,7 @@ const LiveController: Controller = {
       const data = await getAllLive()
       View.Success(res, 'Lives retrieved!', data)
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -141,6 +144,7 @@ const LiveController: Controller = {
 
       View.Success(res, 'Live deleted!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   }

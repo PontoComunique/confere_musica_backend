@@ -19,6 +19,7 @@ const ImageController: Controller = {
       removeFile(req.file.path)
       View.Created(res, 'Image was created!', { imageUrl: `https://${process.env.BUCKET_NAME ?? ''}.s3.${process.env.AWS_DEFAULT_REGION ?? ''}.amazonaws.com/${req.file.filename}` })
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -34,6 +35,7 @@ const ImageController: Controller = {
 
       View.Success(res, 'Image was deleted!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -52,6 +54,7 @@ const ImageController: Controller = {
       removeFile(req.file.path)
       View.Success(res, 'Image was updated!', { imageUrl: `https://${process.env.BUCKET_NAME ?? ''}.s3.${process.env.AWS_DEFAULT_REGION ?? ''}.amazonaws.com/${req.file.filename}` })
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   }
