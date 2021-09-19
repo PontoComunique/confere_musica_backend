@@ -17,34 +17,40 @@ const ImageController: Controller = {
     try {
       await ImageHandler.pushImage(req.file, new AmazonStorage())
       removeFile(req.file.path)
-      View.Created(res, 'Image was created!', { storageKey: req.file.filename })
+      View.Created(res, 'Image was created!', { imageUrl: `https://${process.env.BUCKET_NAME ?? ''}.s3.${process.env.AWS_DEFAULT_REGION ?? ''}.amazonaws.com/${req.file.filename}` })
     } catch (error) {
       View.InternalServerError(res)
     }
   },
 
   async Delete (req, res) {
-    const { storageKey } = req.params
-    if (!storageKey) return View.BadRequest(res, 'Image storage key was not received')
-
+    const { imageUrl } = req.body
+    if (!imageUrl) return View.BadRequest(res, 'Image storage key was not received')
+    const urlParser = /https:\/\/.+\.s3\..+\.amazonaws\.com\/(.+)/g
     try {
-      await ImageHandler.deleteImage(storageKey, new AmazonStorage())
+      const result = urlParser.exec(imageUrl)
+      if (!result) return View.BadRequest(res, 'Invalid image URL')
+      await ImageHandler.deleteImage(result[1], new AmazonStorage())
+
       View.Success(res, 'Image was deleted!')
     } catch (error) {
-      console.log(error)
       View.InternalServerError(res)
     }
   },
   async Update (req, res) {
-    const { storageKey } = req.params
+    const { imageUrl } = req.body
     if (!req.file) return View.BadRequest(res, 'Image was not received')
-    if (!storageKey) return View.BadRequest(res, 'Image storage key was not receiver')
+    if (!imageUrl) return View.BadRequest(res, 'Image storage key was not receiver')
+    const urlParser = /https:\/\/.+\.s3\..+\.amazonaws\.com\/(.+)/g
 
     try {
-      await ImageHandler.deleteImage(storageKey, new AmazonStorage())
+      const result = urlParser.exec(imageUrl)
+      if (!result) return View.BadRequest(res, 'Invalid image URL')
+      await ImageHandler.deleteImage(result[1], new AmazonStorage())
+
       await ImageHandler.pushImage(req.file, new AmazonStorage())
       removeFile(req.file.path)
-      View.Success(res, 'Image was updated!', { storageKey: req.file.filename })
+      View.Success(res, 'Image was updated!', { imageUrl: `https://${process.env.BUCKET_NAME ?? ''}.s3.${process.env.AWS_DEFAULT_REGION ?? ''}.amazonaws.com/${req.file.filename}` })
     } catch (error) {
       View.InternalServerError(res)
     }

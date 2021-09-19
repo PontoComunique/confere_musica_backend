@@ -1,9 +1,8 @@
 import type { RequestHandler } from 'express'
 import { v4 as uuidv4 } from 'uuid'
-import { createPublication, updatePublication, deletePublication, readPublication, readPublications, readPublicationImage } from '../../model/PublicationModel'
+import { createPublication, updatePublication, deletePublication, readPublication, readPublications } from '../../model/PublicationModel'
 import * as ImageHandler from '../../utils/imageHandler'
 import { AmazonStorage } from '../../utils/AmazonStorage'
-import removeFile from '../../utils/removeFile'
 import View from '../../view/View'
 
 interface Controller {
@@ -18,11 +17,9 @@ const PublicationController: Controller = {
   async Create (req, res) {
     if (!req.file) return View.BadRequest(res, 'Image was not received')
     const id = uuidv4()
-    const { title, author, content } = req.body
+    const { title, author, content, imageUrl } = req.body
     try {
-      await ImageHandler.pushImage(req.file, new AmazonStorage())
-      await createPublication(id, title, author, content, new Date(), req.file.filename)
-      removeFile(req.file.path)
+      await createPublication(id, title, author, content, new Date(), imageUrl)
       return View.Success(res, 'Publication created!')
     } catch (error) {
       return View.InternalServerError(res)
@@ -30,19 +27,11 @@ const PublicationController: Controller = {
   },
   async Update (req, res) {
     const { id } = req.params
-    const { title, author, content } = req.body
+    const { title, author, content, imageUrl } = req.body
     try {
-      if (req.file) {
-        const data = await readPublicationImage(id)
-        if (data.length < 1) { return View.NotFound(res, 'No Publication with that id') }
-        await ImageHandler.deleteImage(data[0].storageKey, new AmazonStorage())
-        await ImageHandler.pushImage(req.file, new AmazonStorage())
-        await updatePublication(id, title, author, content, new Date(), req.file.filename)
-        await removeFile(req.file.path)
-      } else {
-        const data = await updatePublication(id, title, author, content, new Date())
-        if (data.length < 1) { return View.NotFound(res, 'No Publication with that id') }
-      }
+      const data = await readPublication(id)
+      await ImageHandler.deleteImage(data[0].imageUrl, new AmazonStorage())
+      await updatePublication(id, title, author, content, new Date(), imageUrl)
       View.Success(res, 'Publication updated!')
     } catch (error) {
       View.InternalServerError(res)

@@ -28,13 +28,13 @@ export class AmazonStorage implements IImageStorage {
     })
   }
 
-  async delete (Key: string): Promise<void> {
+  async delete (Key: string): Promise<any> {
     const s3Params = {
       Bucket: process.env.BUCKET_NAME ?? '',
       Key
     }
 
-    await this.s3.deleteObject(s3Params, function (err, data) {
+    return this.s3.deleteObject(s3Params, function (err, data) {
       if (err) {
         throw err
       }

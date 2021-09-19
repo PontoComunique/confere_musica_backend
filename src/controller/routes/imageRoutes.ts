@@ -8,6 +8,6 @@ const PublicationRoutes = express.Router()
 
 PublicationRoutes.post('/', verifyToken, imageParser, Controller.Create)
 PublicationRoutes.put('/', verifyToken, imageParser, Controller.Update)
-PublicationRoutes.delete('/:id', verifyToken, Controller.Delete)
+PublicationRoutes.delete('/', verifyToken, Controller.Delete)
 
 export default PublicationRoutes
