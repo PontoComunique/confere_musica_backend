@@ -19,6 +19,7 @@ const PodcastController: Controller = {
       await createPodcast(id, title, link, new Date())
       View.Success(res, 'Podcast created!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -30,6 +31,7 @@ const PodcastController: Controller = {
       await updatePodcast(id, title, link, new Date())
       View.Success(res, 'Podcast updated!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -39,6 +41,7 @@ const PodcastController: Controller = {
       await deletePodcast(id)
       View.Success(res, 'Podcast deleted!')
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -48,6 +51,7 @@ const PodcastController: Controller = {
       const data = await readPodcast(id)
       View.Success(res, 'Success!', data)
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   },
@@ -56,6 +60,7 @@ const PodcastController: Controller = {
       const data = await readPodcasts()
       View.Success(res, 'Success!', data)
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   }

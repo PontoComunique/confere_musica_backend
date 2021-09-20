@@ -18,3 +18,19 @@ export const updateLive: RequestHandler = (req, res, next) => {
     return View.InternalServerError(res, 'Unidentified server error')
   }
 }
+
+export const createLive: RequestHandler = (req, res, next) => {
+  try {
+    Schema.createLive.validateSync(req.body, { abortEarly: false })
+    next()
+  } catch (err) {
+    if (err instanceof ValidationError) {
+      const errors = err.inner.map(value => ({
+        name: value.name,
+        message: value.message
+      }))
+      return View.BadRequest(res, 'Validation error', errors)
+    }
+    return View.InternalServerError(res, 'Unidentified server error')
+  }
+}
