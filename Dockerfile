@@ -2,9 +2,7 @@ FROM node:alpine
 
 WORKDIR /app
 
-COPY package.json ./
-
-RUN yarn install
+COPY package.json postinstall.js ./
 
 RUN SKIP_BUILD=1 yarn install
 
