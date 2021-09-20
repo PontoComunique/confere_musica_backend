@@ -4,3 +4,8 @@ export const CreatePodcast = yup.object().shape({
   title: yup.string().required(),
   link: yup.string().required()
 })
+
+export const UpdatePodcast = yup.object().shape({
+  title: yup.string(),
+  link: yup.string()
+})

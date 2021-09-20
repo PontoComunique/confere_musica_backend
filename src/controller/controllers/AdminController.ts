@@ -17,6 +17,7 @@ const AdminController: Controller = {
 
       View.Success(res, 'Successful login!', { token: generateToken({ id: admin[0].id }) })
     } catch (error) {
+      console.log(error)
       View.InternalServerError(res)
     }
   }

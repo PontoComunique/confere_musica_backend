@@ -3,3 +3,4 @@ dist
 coverage
 pgsqldata
 .env
+yarn-error.log
