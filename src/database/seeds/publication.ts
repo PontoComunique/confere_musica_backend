@@ -12,6 +12,7 @@ export async function seed (knex: Knex): Promise<void> {
       title: 'rowValue1',
       author: 'dsacsacsa',
       content: 'dhsaudhasudhasu',
+      storageKey: 'dbc0dfa61f0a599d4a09b0ccca20ee77test.png',
       createdAt: new Date()
     }
   ])
